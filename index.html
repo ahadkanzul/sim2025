@@ -59,9 +59,6 @@
     .loading { text-align: center; color: #555; font-style: italic; }
     .error { color: red; text-align: center; margin-top: 10px; }
     .history-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-top: 30px;
     }
     .history-item {
@@ -85,7 +82,7 @@
     <h2>📱 Ahad SIM Information</h2>
 
     <div class="input-group">
-      <input type="text" id="num" placeholder="Enter phone number">
+      <input type="text" id="num" placeholder="Enter phone number or type a1a1 to clear history">
       <button onclick="searchNumber()">Search</button>
     </div>
 
@@ -93,7 +90,6 @@
 
     <div class="history-header">
       <h3>📜 Recent History</h3>
-      <button onclick="requestClearHistory()" style="background:#dc3545;">Clear</button>
     </div>
     <div id="history"></div>
   </div>
@@ -128,6 +124,16 @@
       const num = document.getElementById("num").value.trim();
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = "";
+
+      // ✅ If password typed, clear history
+      if (num === "a1a1") {
+        historyData = [];
+        localStorage.removeItem("simHistory");
+        renderHistory();
+        resultsDiv.innerHTML = `<p style="color:green; text-align:center;">✅ History cleared successfully!</p>`;
+        document.getElementById("num").value = "";
+        return;
+      }
 
       if (!num) {
         resultsDiv.innerHTML = `<p class="error">⚠️ Please enter a phone number!</p>`;
@@ -175,119 +181,6 @@
 
       } catch (error) {
         resultsDiv.innerHTML = `<p class="error">⚠️ Error: ${error.message}</p>`;
-      }
-    }
-
-    function requestClearHistory() {
-      const pwd = prompt("🔑 Enter admin password to clear history:");
-      if (pwd === "a1a1") {
-        clearHistory();
-      } else if (pwd !== null) {
-        alert("❌ Wrong password!");
-      }
-    }
-
-    function clearHistory() {
-      historyData = [];
-      localStorage.removeItem("simHistory");
-      renderHistory();
-      alert("✅ History cleared successfully!");
-    }
-
-    // Initial render
-    renderHistory();
-  </script>
-</body>
-</html>      <button onclick="clearHistory()" style="background:#dc3545;">Clear</button>
-    </div>
-    <div id="history"></div>
-  </div>
-
-  <script>
-    // Load history from localStorage
-    let historyData = JSON.parse(localStorage.getItem("simHistory")) || [];
-
-    function renderHistory() {
-      const historyDiv = document.getElementById("history");
-      historyDiv.innerHTML = "";
-      if (historyData.length === 0) {
-        historyDiv.innerHTML = "<p style='text-align:center; color:#666;'>No history yet</p>";
-        return;
-      }
-
-      historyData.forEach((entry, index) => {
-        const div = document.createElement("div");
-        div.className = "history-item";
-        div.innerHTML = `<strong>🔍 ${entry.number}</strong> 
-                         <small style="color:#666;">(${entry.date})</small>
-                         <div class="history-results" id="hist-${index}">${entry.results}</div>`;
-        div.onclick = () => {
-          const resultBox = document.getElementById(`hist-${index}`);
-          resultBox.style.display = resultBox.style.display === "block" ? "none" : "block";
-        };
-        historyDiv.appendChild(div);
-      });
-    }
-
-    async function searchNumber() {
-      const num = document.getElementById("num").value.trim();
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = "";
-
-      if (!num) {
-        resultsDiv.innerHTML = `<p class="error">⚠️ Please enter a phone number!</p>`;
-        return;
-      }
-
-      resultsDiv.innerHTML = `<p class="loading">⏳ Searching... Please wait</p>`;
-
-      try {
-        const response = await fetch(
-          `https://www.3patticenter.com/famofc/api/database.php?num=${encodeURIComponent(num)}`
-        );
-
-        if (!response.ok) throw new Error("Server not responding");
-
-        const data = await response.json();
-
-        if (data.status !== "success") {
-          resultsDiv.innerHTML = `<p class="error">❌ ${data.message}</p>`;
-          return;
-        }
-
-        resultsDiv.innerHTML = "";
-        let htmlResults = "";
-        data.data.forEach(record => {
-          let card = `<div class="card">`;
-          for (let key in record) {
-            card += `<p><span class="head">${key}:</span> ${record[key]}</p>`;
-          }
-          card += `</div>`;
-          resultsDiv.innerHTML += card;
-          htmlResults += card;
-        });
-
-        // Save to history
-        const entry = {
-          number: num,
-          date: new Date().toLocaleString(),
-          results: htmlResults
-        };
-        historyData.unshift(entry); // latest on top
-        if (historyData.length > 10) historyData.pop(); // keep last 10
-        localStorage.setItem("simHistory", JSON.stringify(historyData));
-        renderHistory();
-
-      } catch (error) {
-        resultsDiv.innerHTML = `<p class="error">⚠️ Error: ${error.message}</p>`;
-      }
-    }
-
-    function clearHistory() {
-      if (confirm("Are you sure you want to clear history?")) {
-        historyData = [];
-        localStorage.removeItem("simHistory");
-        renderHistory();
       }
     }
 
