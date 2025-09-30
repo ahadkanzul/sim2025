@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Lookup | Ahad SIM Information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --radius: 10px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .logo i {
+      font-size: 2.5rem;
+      color: var(--primary);
+    }
+    
+    h1 {
+      color: var(--secondary);
+      font-size: 2.2rem;
+    }
+    
+    .tagline {
+      color: #7f8c8d;
+      font-size: 1.1rem;
+    }
+    
+    .search-section {
+      background: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+    }
+    
+    .search-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    input {
+      flex: 1;
+      min-width: 250px;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .btn {
+      padding: 15px 25px;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #1a252f;
+      transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #c0392b;
+      transform: translateY(-2px);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .results-section {
+      margin-bottom: 30px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--primary);
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card p {
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .head {
+      font-weight: bold;
+      min-width: 150px;
+      color: var(--secondary);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 30px;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    
+    .error {
+      color: var(--danger);
+      text-align: center;
+      padding: 20px;
+      background: #ffeaea;
+      border-radius: var(--radius);
+      margin: 20px 0;
+    }
+    
+    .success {
+      color: var(--success);
+      text-align: center;
+      padding: 20px;
+      background: #eaffea;
+      border-radius: var(--radius);
+      margin: 20px 0;
+    }
+    
+    .ad-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+      padding: 15px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .ad-728x90 {
+      width: 728px;
+      height: 90px;
+      background: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #ddd;
+      color: #888;
+    }
+    
+    .ad-160x300 {
+      width: 160px;
+      height: 300px;
+      background: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #ddd;
+      color: #888;
+    }
+    
+    .ad-sidebar {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    .ad-social-bar {
+      width: 100%;
+      height: 90px;
+      background: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #ddd;
+      color: #888;
+      margin: 30px 0;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .ad-sidebar {
+        position: static;
+        transform: none;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+      }
+      
+      .search-box {
+        flex-direction: column;
+      }
+      
+      input {
+        min-width: 100%;
+      }
+      
+      .ad-728x90 {
+        width: 100%;
+        max-width: 728px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-mobile-alt"></i>
+        <h1>Ahad SIM Information</h1>
+      </div>
+      <p class="tagline">Look up phone number details quickly and accurately</p>
+    </header>
+    
+    <div class="ad-container">
+      <div class="ad-728x90">
+        <!-- Ad Banner 728x90 will be placed here -->
+        <span>Advertisement 728x90</span>
+      </div>
+    </div>
+    
+    <section class="search-section">
+      <div class="search-box">
+        <input type="text" id="num" placeholder="Enter phone number with country code (e.g. +1234567890)">
+        <button class="btn btn-primary" onclick="searchNumber()">
+          <i class="fas fa-search"></i> Search Number
+        </button>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="clearHistory()">
+          <i class="fas fa-history"></i> Clear History
+        </button>
+        <button class="btn btn-danger" onclick="clearResults()">
+          <i class="fas fa-trash"></i> Clear Results
+        </button>
+      </div>
+    </section>
+    
+    <div class="ad-container ad-social-bar">
+      <!-- Ad Social Bar will be placed here -->
+      <span>Social Bar Advertisement</span>
+    </div>
+    
+    <section class="results-section" id="results">
+      <!-- Results will be displayed here -->
+      <div class="card">
+        <p><span class="head">Welcome!</span> Enter a phone number above to get started.</p>
+        <p><span class="head">Example:</span> +1234567890</p>
+      </div>
+    </section>
+    
+    <div class="ad-sidebar">
+      <div class="ad-160x300">
+        <!-- Ad Banner 160x300 will be placed here -->
+        <span>Advertisement 160x300</span>
+      </div>
+    </div>
+    
+    <footer>
+      <p>&copy; 2023 Ahad SIM Information. All rights reserved.</p>
+      <p>This service is for informational purposes only.</p>
+    </footer>
+  </div>
+
+  <script>
+    async function searchNumber() {
+      const num = document.getElementById("num").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching... Please wait</div>';
+
+      if (!num) {
+        alert("Please enter a phone number!");
+        resultsDiv.innerHTML = '<div class="error"><i class="fas fa-exclamation-circle"></i> Please enter a phone number to search</div>';
+        return;
+      }
+
+      try {
+        // Simulate API call with timeout
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // In a real implementation, you would call your PHP API
+        // const response = await fetch(`https://www.3patticenter.com/famofc/api/database.php?num=${encodeURIComponent(num)}`);
+        // const data = await response.json();
+        
+        // For demo purposes, we'll use mock data
+        const mockData = {
+          status: "success",
+          data: [
+            {
+              "Phone Number": num,
+              "Carrier": "AT&T Mobility",
+              "Country": "United States",
+              "Location": "New York, NY",
+              "Line Type": "Mobile",
+              "Status": "Active"
+            }
+          ]
+        };
+        
+        const data = mockData; // Replace with actual API response
+
+        if (data.status !== "success") {
+          resultsDiv.innerHTML = `<div class="error"><i class="fas fa-times-circle"></i> ${data.message || "No information found for this number"}</div>`;
+          return;
+        }
+
+        // show results
+        resultsDiv.innerHTML = "";
+        data.data.forEach(record => {
+          let card = `<div class="card">`;
+          for (let key in record) {
+            card += `<p><span class="head">${key}:</span> ${record[key]}</p>`;
+          }
+          card += `</div>`;
+          resultsDiv.innerHTML += card;
+        });
+
+      } catch (error) {
+        resultsDiv.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+      }
+    }
+    
+    function clearHistory() {
+      if (confirm("Are you sure you want to clear search history?")) {
+        // In a real implementation, you would clear the search history from storage
+        document.getElementById("num").value = "";
+        document.getElementById("results").innerHTML = '<div class="success"><i class="fas fa-check-circle"></i> Search history cleared successfully</div>';
+        setTimeout(() => {
+          document.getElementById("results").innerHTML = '<div class="card"><p><span class="head">Welcome!</span> Enter a phone number above to get started.</p></div>';
+        }, 2000);
+      }
+    }
+    
+    function clearResults() {
+      if (confirm("Are you sure you want to clear all results?")) {
+        document.getElementById("results").innerHTML = '<div class="success"><i class="fas fa-check-circle"></i> Results cleared successfully</div>';
+        setTimeout(() => {
+          document.getElementById("results").innerHTML = '<div class="card"><p><span class="head">Welcome!</span> Enter a phone number above to get started.</p></div>';
+        }, 2000);
+      }
+    }
+    
+    // Add the ad scripts
+    window.addEventListener('DOMContentLoaded', (event) => {
+      // Ad Banner 728x90
+      const ad728x90 = document.createElement('script');
+      ad728x90.type = 'text/javascript';
+      ad728x90.innerHTML = `
+        atOptions = {
+          'key' : 'bde77ab42b419449efe1bc224cf0d7d5',
+          'format' : 'iframe',
+          'height' : 90,
+          'width' : 728,
+          'params' : {}
+        };
+      `;
+      document.head.appendChild(ad728x90);
+      
+      const ad728x90Script = document.createElement('script');
+      ad728x90Script.type = 'text/javascript';
+      ad728x90Script.src = '//www.highperformanceformat.com/bde77ab42b419449efe1bc224cf0d7d5/invoke.js';
+      document.head.appendChild(ad728x90Script);
+      
+      // Ad Banner 160x300
+      const ad160x300 = document.createElement('script');
+      ad160x300.type = 'text/javascript';
+      ad160x300.innerHTML = `
+        atOptions = {
+          'key' : 'af75e21cdb27d5e446240052fc4d5fb3',
+          'format' : 'iframe',
+          'height' : 300,
+          'width' : 160,
+          'params' : {}
+        };
+      `;
+      document.head.appendChild(ad160x300);
+      
+      const ad160x300Script = document.createElement('script');
+      ad160x300Script.type = 'text/javascript';
+      ad160x300Script.src = '//www.highperformanceformat.com/af75e21cdb27d5e446240052fc4d5fb3/invoke.js';
+      document.head.appendChild(ad160x300Script);
+      
+      // Ad Social Bar
+      const adSocialBar = document.createElement('script');
+      adSocialBar.type = 'text/javascript';
+      adSocialBar.src = '//pl27751261.revenuecpmgate.com/e9/86/6d/e9866d4617229959389ac6b6d0ac5388.js';
+      document.head.appendChild(adSocialBar);
+    });
+  </script>
+</body>
+</html>
