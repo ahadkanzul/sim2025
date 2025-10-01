@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📱 Ahad SIM Information</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #4a90e2;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 20px;
+    }
+    .main {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .main h2 {
+      margin-top: 0;
+      color: #444;
+    }
+    input, button {
+      padding: 12px;
+      margin: 8px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    input {
+      width: 70%;
+    }
+    button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #357ABD;
+    }
+    .card {
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .head {
+      font-weight: bold;
+      color: #222;
+    }
+    #results {
+      margin-top: 20px;
+    }
+    aside {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+      background: #4a90e2;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .ad-box {
+      margin: 15px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    📱 Ahad Sim Information 
+  </header>
+
+  <div class="container">
+    <!-- Main Section -->
+    <div class="main">
+      <h2>Search Phone Number</h2>
+      <input type="text" id="num" placeholder="Enter phone number">
+      <button onclick="searchNumber()">🔍 Search</button>
+
+      <div id="results"></div>
+
+      <!-- Inline Ad Below Results -->
+      <div class="ad-box">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : 'bde77ab42b419449efe1bc224cf0d7d5',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/bde77ab42b419449efe1bc224cf0d7d5/invoke.js"></script>
+      </div>
+    </div>
+
+    <!-- Sidebar Ads -->
+    <aside>
+      <h3>Sponsored</h3>
+      <div class="ad-box">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : 'af75e21cdb27d5e446240052fc4d5fb3',
+            'format' : 'iframe',
+            'height' : 300,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/af75e21cdb27d5e446240052fc4d5fb3/invoke.js"></script>
+      </div>
+
+      <div class="ad-box">
+        <script type='text/javascript' src='//pl27751261.revenuecpmgate.com/e9/86/6d/e9866d4617229959389ac6b6d0ac5388.js'></script>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    &copy; 2025 Live Number Tracker | All Rights Reserved
+  </footer>
+
+  <script>
+    async function searchNumber() {
+      const num = document.getElementById("num").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "⏳ Loading...";
+
+      if (!num) {
+        alert("Please enter a number!");
+        resultsDiv.innerHTML = "";
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://www.3patticenter.com/famofc/api/database.php?num=${encodeURIComponent(num)}`);
+        const data = await response.json();
+
+        if (data.status !== "success") {
+          resultsDiv.innerHTML = `<p style="color:red;">❌ ${data.message}</p>`;
+          return;
+        }
+
+        resultsDiv.innerHTML = "";
+        data.data.forEach(record => {
+          let card = `<div class="card">`;
+          for (let key in record) {
+            card += `<p><span class="head">${key}:</span> ${record[key]}</p>`;
+          }
+          card += `</div>`;
+          resultsDiv.innerHTML += card;
+        });
+
+      } catch (error) {
+        resultsDiv.innerHTML = `<p style="color:red;">⚠️ Error: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
